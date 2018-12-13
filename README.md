@@ -2,7 +2,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## Simple Board
 * Focus on implementing react functionality.
-* Developed for React learning without using DB.
+* Developed for React learning without using DBMS.
 
 ### build
 * yarn install
