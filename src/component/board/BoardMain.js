@@ -24,7 +24,7 @@ class BoardMain extends Component {
     };
     id = this.state.items.length +1;
 
-    currentDt() {
+    static currentDt() {
         const now = new Date();
         const yyyy = now.getFullYear();
         const mm = now.getMonth();
@@ -39,7 +39,7 @@ class BoardMain extends Component {
     handleCreate = (data) => {
         this.setState({
             items: this.state.items.concat(
-                {id: this.id++, today: this.currentDt(),  ...data}
+                {id: this.id++, today: BoardMain.currentDt(),  ...data}
             )
         });
     };
@@ -50,6 +50,16 @@ class BoardMain extends Component {
             items: items.filter(item => item.id !== id )
         })
     };
+
+    handleUpdate = (id, data) => {
+        const {items} = this.state;
+        this.setState({
+            items: items.map( item =>
+                item.id === id ? {...item, ...data} : item
+            )
+        });
+    };
+
     render() {
         return (
             <div>
@@ -64,7 +74,7 @@ class BoardMain extends Component {
                         <td>삭제</td>
                     </tr>
                     </thead>
-                    <BoardRecordList items={this.state.items} onRemove={this.handleRemove}/>
+                    <BoardRecordList items={this.state.items} onRemove={this.handleRemove} onUpdate={this.handleUpdate}/>
                 </table>
             </div>
         );
