@@ -10,11 +10,10 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 ### start
 * yarn start
 
-### 기능설명
-* CRUD
-#### Update
-* 수정모드 : 수정할 Row를 클릭시
-* 수정완료 : 수정된 Row를 더블클릭시
+### CRUD
+* Update
+ * 수정모드 : 수정할 Row를 클릭시
+ * 수정완료 : 수정된 Row를 더블클릭시
 
 ## Ref.
 * https://velopert.com/3634
