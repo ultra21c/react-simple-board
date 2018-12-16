@@ -1,39 +1,16 @@
 import React, {Component} from 'react';
 import BoardRecordList from "./BoardRecordList";
 import BoardForm from "./BoardForm";
+const dateFormat = require('dateformat');
 
 class BoardMain extends Component {
     state = {
-        items: [
-        //     {
-        //         id: 1,
-        //         title: "제목1",
-        //         content: "내용1",
-        //         name: "이름1",
-        //         today: this.currentDt()
-        //     },
-        //     {
-        //         id: 2,
-        //         title: "제목2",
-        //         content: "내용2",
-        //         name: "이름2",
-        //         today: this.currentDt()
-        //     },
-        //
-        ]
+        items: [],
     };
     id = this.state.items.length +1;
 
     static currentDt() {
-        const now = new Date();
-        const yyyy = now.getFullYear();
-        const mm = now.getMonth();
-        const dd = now.getDay();
-        const hour = now.getHours();
-        const min = now.getMinutes();
-        const seconds = now.getSeconds();
-        const today = yyyy + "-" + mm + "-" + dd + " " + hour + ":" + min + ":" + seconds;
-        return (today);
+        return dateFormat(new Date(), "yyyy-mm-dd HH:MM:ss");
     }
 
     handleCreate = (data) => {
