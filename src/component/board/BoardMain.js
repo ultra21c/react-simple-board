@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import BoardRecordList from "./BoardRecordList";
 import BoardForm from "./BoardForm";
-const dateFormat = require('dateformat');
+import {format} from 'date-fns'
+// const dateFormat = require('dateformat');
 
 class BoardMain extends Component {
     state = {
@@ -10,7 +11,8 @@ class BoardMain extends Component {
     id = this.state.items.length +1;
 
     static currentDt() {
-        return dateFormat(new Date(), "yyyy-mm-dd HH:MM:ss");
+        // return dateFormat(new Date(), "yyyy-mm-dd HH:MM:ss");
+        return format(new Date(), "YYYY-MM-DD HH:mm:ss");
     }
 
     handleCreate = (data) => {
