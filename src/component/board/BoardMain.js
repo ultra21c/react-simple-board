@@ -10,15 +10,15 @@ class BoardMain extends Component {
     };
     id = this.state.items.length +1;
 
-    static currentDt() {
+    currentDt = () => {
         // return dateFormat(new Date(), "yyyy-mm-dd HH:MM:ss");
         return format(new Date(), "YYYY-MM-DD HH:mm:ss");
-    }
+    };
 
     handleCreate = (data) => {
         this.setState({
             items: this.state.items.concat(
-                {id: this.id++, today: BoardMain.currentDt(),  ...data}
+                {id: this.id++, today: this.currentDt(),  ...data}
             )
         });
     };
