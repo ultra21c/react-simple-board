@@ -1,9 +1,15 @@
 import React, {Component} from 'react';
+import {connect} from 'react-redux';
+import {create} from '../store/modules/board';
+import {format} from 'date-fns'
 
-class BoardForm extends Component {
+class BoardFormContainer extends Component {
     state = {
         title: '',
-        content: '',
+        name: '',
+    };
+    currentDt = () => {
+        return format(new Date(), "YYYY-MM-DD HH:mm:ss");
     };
     handleChange = (e) => {
         this.setState({
@@ -13,11 +19,11 @@ class BoardForm extends Component {
     };
     handleSubmit = (e) => {
         e.preventDefault();
-        const {onCreate} = this.props;
-        onCreate(this.state);
+        // const {create} = this.props;
+        this.props.create(this.state, this.currentDt());
         this.setState({
             title: '',
-            content: '',
+            name: '',
         })
     };
 
@@ -31,9 +37,9 @@ class BoardForm extends Component {
                     onChange={this.handleChange}
                 />
                 <input
-                    placeholder="내용"
-                    value={this.state.content}
-                    name="content"
+                    placeholder="이름"
+                    value={this.state.name}
+                    name="name"
                     onChange={this.handleChange}
                 />
                 <button type="submit">등록</button>
@@ -42,4 +48,11 @@ class BoardForm extends Component {
     }
 }
 
-export default BoardForm;
+const mapDispatchToProps = dispatch => ({
+    create: (item, dt) => dispatch(create(item, dt)),
+});
+
+export default connect(
+    null,
+    mapDispatchToProps,
+)(BoardFormContainer);

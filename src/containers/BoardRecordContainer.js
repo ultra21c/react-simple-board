@@ -1,6 +1,9 @@
 import React, {Component} from 'react';
 
-class BoardRecord extends Component {
+import {connect} from 'react-redux';
+import {update, remove} from '../store/modules/board'
+
+class BoardRecordContainer extends Component {
     static defaultProps = {
         items: {
         },
@@ -8,13 +11,13 @@ class BoardRecord extends Component {
 
     state = {
         title: '',
-        content: '',
+        name: '',
         editing: false,
     };
 
     handleRemove = () => {
-        const {item, onRemove} = this.props;
-        onRemove(item.id);
+        const {item, remove} = this.props;
+        remove(item.id);
     };
 
     handleToggleEdit = () => {
@@ -36,26 +39,26 @@ class BoardRecord extends Component {
         // 이 시점에선 this.props 와 this.state 가 바뀌어있습니다.
         // 그리고 파라미터를 통해 이전의 값인 prevProps 와 prevState 를 조회 할 수 있습니다.
         // 그리고, getSnapshotBeforeUpdate 에서 반환한 snapshot 값은 세번째 값으로 받아옵니다.
-        const {item, onUpdate} = this.props;
+        const {item, update} = this.props;
         if (!prevState.editing && this.state.editing) { // 그전에 editing false 였고 현재는 true 인경우.
             this.setState({
                 title: item.title,
-                content: item.content,
+                name: item.name,
             })
         }
 
         if (prevState.editing && !this.state.editing) { // 수정완료 했다~~~
-            onUpdate(item.id,
+            update(item.id,
                 {
                     title: this.state.title,
-                    content: this.state.content,
+                    name: this.state.name,
                 }
             )
         }
     }
 
     render() {
-        const {id, title, content, today} = this.props.item;
+        const {id, title, name, today} = this.props.item;
         const {editing} = this.state;
 
         if (editing) { // 수정
@@ -66,7 +69,7 @@ class BoardRecord extends Component {
                         <input value={this.state.title} name="title" onChange={this.handleChange} />
                     </td>
                     <td>
-                        <input value={this.state.content} name="content" onChange={this.handleChange} />
+                        <input value={this.state.name} name="name" onChange={this.handleChange} />
                     </td>
                     <td>{today}</td>
                     <td><button onClick={this.handleRemove}>X</button></td>
@@ -77,7 +80,7 @@ class BoardRecord extends Component {
                 <tr onClick={this.handleToggleEdit}>
                     <td>{id}</td>
                     <td>{title}</td>
-                    <td>{content}</td>
+                    <td>{name}</td>
                     <td>{today}</td>
                     <td><button onClick={this.handleRemove}>X</button></td>
                 </tr>
@@ -86,4 +89,13 @@ class BoardRecord extends Component {
     }
 }
 
-export default BoardRecord;
+const mapDispatchToProps = dispatch => ({
+    update: (id, item) => dispatch(update(id, item)),
+    remove: (id) => dispatch(remove(id)),
+});
+
+export default connect(
+    null,
+    mapDispatchToProps,
+)(BoardRecordContainer);
+
