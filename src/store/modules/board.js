@@ -18,9 +18,9 @@ export default function board (state=initialState, action) {
         case BOARD_CREATE:
             return {
                 items: state.items.concat(
-                    {id: state.id++, today: action.dt,  ...action.item}
+                    {id: state.id, today: action.dt,  ...action.item}
                 ),
-                id: state.id ++,
+                id: ++state.id,
             };
         case BOARD_UPDATE:
             return {
