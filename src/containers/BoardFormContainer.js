@@ -15,35 +15,36 @@ class BoardFormContainer extends Component {
         this.setState({
             [e.target.name]: e.target.value,
         });
-
     };
     handleSubmit = (e) => {
-        e.preventDefault();
-        // const {create} = this.props;
         this.props.create(this.state, this.currentDt());
         this.setState({
             title: '',
             name: '',
         })
     };
-
+    handleKeydown = (e) => {
+        if (e.keyCode === 13) this.handleSubmit(e);
+    };
     render() {
         return(
-            <form onSubmit={this.handleSubmit}>
+            <div>
                 <input
                     placeholder="제목"
                     value={this.state.title}
                     name="title"
                     onChange={this.handleChange}
+                    onKeyDown={this.handleKeydown}
                 />
                 <input
                     placeholder="이름"
                     value={this.state.name}
                     name="name"
                     onChange={this.handleChange}
+                    onKeyDown={this.handleKeydown}
                 />
-                <button type="submit">등록</button>
-            </form>
+                <button onClick={this.handleSubmit}>등록</button>
+            </div>
         );
     }
 }
