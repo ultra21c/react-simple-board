@@ -1,37 +1,33 @@
+import { createAction, handleActions } from 'redux-actions';
+
 const BOARD_CREATE = 'board/BOARD_CREATE';
 const BOARD_READ  = 'board/BOARD_READ';
 const BOARD_UPDATE = 'board/BOARD_UPDATE';
 const BOARD_DELETE  = 'board/BOARD_DELETE';
 
-export const create = (item, dt) => ({type:BOARD_CREATE, item, dt});
-export const update = (id, item) => ({type:BOARD_UPDATE, item, id});
-export const remove = (id) => ({type:BOARD_DELETE, id});
-export const read = () => ({type:BOARD_READ});
+let id = 0;
+export const create = createAction(BOARD_CREATE, (item, dt) => ({ item, dt, id: id++ }));
+export const update = createAction(BOARD_UPDATE, (id, item) =>({item, id}));
+export const remove = createAction(BOARD_DELETE, id =>({id}));
+export const read = createAction(BOARD_READ);
 
 const initialState = {
     items: [],
-    id:1,
 };
 
-export default function board (state=initialState, action) {
-    switch (action.type) {
-        case BOARD_CREATE:
-            return {
-                items: state.items.concat(
-                    {id: state.id, today: action.dt,  ...action.item}
-                ),
-                id: ++state.id,
-            };
-        case BOARD_UPDATE:
-            return {
-                items: state.items.map( item => item.id === action.id ? {...item, ...action.item} : item )
-            };
-        case BOARD_DELETE:
-            return {
-                items: state.items.filter(item => item.id !== action.id )
-            };
-        case BOARD_READ:
-        default:
-            return state;
-    }
-}
+export default handleActions(
+    {
+        [BOARD_CREATE]: (state, action) => ({
+            items: state.items.concat(
+                {id: id, today: action.payload.dt,  ...action.payload.item}
+            ),
+        }),
+        [BOARD_UPDATE]: (state, action) => ({
+            items: state.items.map( item => item.id === action.payload.id ? {...item, ...action.payload.item} : item )
+        }),
+        [BOARD_DELETE]: (state, action) => ({
+            items: state.items.filter(item => item.id !== action.payload.id )
+        }),
+    },
+    initialState
+);
