@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 
 import {connect} from 'react-redux';
 import {update, remove} from '../store/modules/board'
+import {bindActionCreators} from "redux";
 
 class BoardRecordContainer extends Component {
     static defaultProps = {
@@ -53,7 +54,7 @@ class BoardRecordContainer extends Component {
                     title: this.state.title,
                     name: this.state.name,
                 }
-            )
+            );
         }
     }
 
@@ -89,10 +90,19 @@ class BoardRecordContainer extends Component {
     }
 }
 
+// bindActionCreator 사용해 보기
+/*
+// 1. 일반적인 방법
 const mapDispatchToProps = dispatch => ({
     update: (id, item) => dispatch(update(id, item)),
     remove: (id) => dispatch(remove(id)),
 });
+*/
+// 2. bindActionCreator
+// const mapDispatchToProps = dispatch => bindActionCreators({update, remove}, dispatch);
+
+// 3. action 형태로 바로 할당. 제일 간단하네..
+const mapDispatchToProps = {update, remove};
 
 export default connect(
     null,
